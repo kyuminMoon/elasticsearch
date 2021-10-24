@@ -1,0 +1,80 @@
+buildscript {
+    ext {
+        springBootVersion = '2.5.6'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+
+        /* modelmapper */
+        classpath 'org.modelmapper:modelmapper:2.3.5'
+        /* modelmapper */
+    }
+}
+//ext.systemProperties = System.properties
+allprojects {
+    group = 'com.kyumin'
+    version = "1.0.0"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = '11'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    }
+
+    // 해당 task로 서브 모듈 추가시 기초적인 디렉토리를 자동으로 생성해줍니다.
+    task initSourceFolders {
+        sourceSets*.java.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+
+        sourceSets*.resources.srcDirs*.each {
+            if (!it.exists()) {
+                it.mkdirs()
+            }
+        }
+    }
+}
+
+
+/* API */
+//project(':consumer-api') {
+//	dependencies {
+//		compile project(':core-web')
+//	}
+//}
+
+/* RDS */
+project(':domain-es') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-devtools'
+    }
+
+}
+
+/* 공통 사용 모듈 */
+//project(':core-web') {
+//	dependencies {
+//		compile project(':es-domain')
+//		compile 'org.springframework.boot:spring-boot-devtools'
+//	}
+//}

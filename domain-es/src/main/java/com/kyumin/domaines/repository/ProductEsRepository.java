@@ -1,0 +1,1 @@
+package com.kyumin.domaines.repository;import com.kyumin.domaines.domain.ProductIndex;import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;import org.springframework.stereotype.Repository;@Repositorypublic interface ProductEsRepository extends ElasticsearchRepository<ProductIndex, Long> {}
